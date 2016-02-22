@@ -75,13 +75,13 @@ end
 #
 function prompt_virtual_env -d "Display Python virtual environment"
   if test "$VIRTUAL_ENV"
-    prompt_segment white black (basename $VIRTUAL_ENV)
+    prompt_segment green black (basename $VIRTUAL_ENV)
   end
 end
 
 
 function prompt_user -d "Display current user if different from $default_user"
-  set -l BG 444444
+  set -l BG black
   set -l FG BCBCBC
 
   if [ "$theme_display_user" = "yes" ]
@@ -112,7 +112,7 @@ end
 
 
 function prompt_dir -d "Display the current directory"
-  prompt_segment 1C1C1C FFFFFF (prompt_pwd)
+  prompt_segment red white (prompt_pwd)
 end
 
 
@@ -125,11 +125,11 @@ function prompt_hg -d "Display mercurial state"
       set state (command hg prompt "{status}")
       set branch_symbol \uE0A0
       if [ "$state" = "!" ]
-        prompt_segment red white "$branch_symbol $branch ±"
+        prompt_segment magenta white "$branch_symbol $branch ±"
       else if [ "$state" = "?" ]
-          prompt_segment yellow black "$branch_symbol $branch ±"
+          prompt_segment blue black "$branch_symbol $branch ±"
         else
-          prompt_segment green black "$branch_symbol $branch"
+          prompt_segment cyan black "$branch_symbol $branch"
       end
     end
   end
@@ -150,10 +150,10 @@ function prompt_git -d "Display the current git state"
     set -l BG PROMPT
     set -l dirty (command git status --porcelain --ignore-submodules=dirty 2> /dev/null)
     if [ "$dirty" = "" ]
-      set BG green
+      set BG cyan
       set PROMPT "$branch"
     else
-      set BG yellow
+      set BG blue
       set dirty ''
 
       # Check if there's any commit in the repo
@@ -197,7 +197,7 @@ function prompt_svn -d "Display the current svn state"
     set branch (svn_get_branch)
     set branch_symbol \uE0A0
     set revision (svn_get_revision)
-    prompt_segment green black "$branch_symbol $branch:$revision"
+    prompt_segment cyan black "$branch_symbol $branch:$revision"
   end
 end
 
@@ -221,18 +221,18 @@ end
 
 function prompt_status -d "the symbols for a non zero exit status, root and background jobs"
     if [ $RETVAL -ne 0 ]
-      prompt_segment black red "✘"
+      prompt_segment white red "✘"
     end
 
     # if superuser (uid == 0)
     set -l uid (id -u $USER)
     if [ $uid -eq 0 ]
-      prompt_segment black yellow "⚡"
+      prompt_segment white yellow "⚡"
     end
 
     # Jobs display
     if [ (jobs -l | wc -l) -gt 0 ]
-      prompt_segment black cyan "⚙"
+      prompt_segment white cyan "⚙"
     end
 end
 
