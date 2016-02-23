@@ -114,7 +114,22 @@ end
 
 
 function prompt_dir -d "Display the current directory"
-  prompt_segment red white (prompt_pwd)
+  prompt_segment red white ''
+  set basename (basename $PWD)
+  set realhome ~
+  switch $PWD
+    case "$realhome"
+      echo -n (prompt_pwd)
+    case "/"
+      echo -n "/"
+    case "*"
+      set parent (prompt_pwd | sed -e "s/$basename\$//")
+      set_color white
+      echo -n $parent
+      set_color -o white
+      echo -n $basename
+  end
+  echo -n " "
 end
 
 
