@@ -12,7 +12,7 @@
 set -g current_bg NONE
 set -g segment_right_separator \uE0B2
 
-function right_prompt_segment -d "Function to draw a segment"
+function right_prompt_segment -d "Function to draw a right segment"
   set -l bg
   set -l fg
   if [ -n "$argv[1]" ]
@@ -25,7 +25,7 @@ function right_prompt_segment -d "Function to draw a segment"
   else
     set fg normal
   end
-  if [ "$current_bg" != 'NONE' ]
+  if [ "$current_bg" != 'NONE' -a "$argv[1]" != "$current_bg" ]
     set_color -b $current_bg
   else
     set_color -b normal
