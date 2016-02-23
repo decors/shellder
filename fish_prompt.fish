@@ -52,7 +52,9 @@ function prompt_segment -d "Function to draw a segment"
   else
     set_color -b $bg
     set_color $fg
-    echo -n " "
+    if [ "$argv[1]" != "$current_bg" ]
+      echo -n " "
+    end
   end
   set current_bg $argv[1]
   if [ -n "$argv[3]" ]
@@ -221,18 +223,18 @@ end
 
 function prompt_status -d "the symbols for a non zero exit status, root and background jobs"
     if [ $RETVAL -ne 0 ]
-      prompt_segment white red "✘"
+      prompt_segment white red '!'
     end
 
     # if superuser (uid == 0)
     set -l uid (id -u $USER)
     if [ $uid -eq 0 ]
-      prompt_segment white yellow "⚡"
+      prompt_segment white green '$'
     end
 
     # Jobs display
     if [ (jobs -l | wc -l) -gt 0 ]
-      prompt_segment white cyan "⚙"
+      prompt_segment white magenta '%'
     end
 end
 
