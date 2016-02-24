@@ -1,6 +1,7 @@
 # Set these options in your config.fish (if you want to :])
 #
-#     set -g theme_display_vcs_user no
+#     set -g theme_display_git_user no
+#     set -g theme_display_hg_user yes
 
 #
 # Segments functions
@@ -103,8 +104,10 @@ end
 # Prompt
 #
 function fish_right_prompt
-  if [ "$theme_display_vcs_user" != 'no' ]
+  if [ "$theme_display_hg_user" = 'yes' ]
     available hg; and right_prompt_hg_user
+  end
+  if [ "$theme_display_git_user" != 'no' ]
     available git; and right_prompt_git_user
   end
   right_prompt_clock
