@@ -117,7 +117,7 @@ end
 
 
 function prompt_dir -d "Display the current directory"
-  prompt_segment red white ''
+  prompt_segment black white ''
   set basename (basename $PWD)
   set realhome ~
   switch $PWD
@@ -147,9 +147,9 @@ function prompt_hg -d "Display mercurial state"
       if [ "$state" = "!" ]
         prompt_segment magenta white "$branch_symbol $branch ±"
       else if [ "$state" = "?" ]
-          prompt_segment blue black "$branch_symbol $branch ±"
+          prompt_segment red white "$branch_symbol $branch ±"
         else
-          prompt_segment cyan black "$branch_symbol $branch"
+          prompt_segment cyan white "$branch_symbol $branch"
       end
     end
   end
@@ -173,7 +173,7 @@ function prompt_git -d "Display the current git state"
       set BG cyan
       set PROMPT "$branch"
     else
-      set BG blue
+      set BG red
       set dirty ''
 
       # Check if there's any commit in the repo
@@ -206,7 +206,7 @@ function prompt_git -d "Display the current git state"
         set PROMPT "$branch $dirty"
       end
     end
-    prompt_segment $BG black $PROMPT
+    prompt_segment $BG white $PROMPT
   end
 end
 
@@ -217,7 +217,7 @@ function prompt_svn -d "Display the current svn state"
     set branch (svn_get_branch)
     set branch_symbol \uE0A0
     set revision (svn_get_revision)
-    prompt_segment cyan black "$branch_symbol $branch:$revision"
+    prompt_segment cyan white "$branch_symbol $branch:$revision"
   end
 end
 

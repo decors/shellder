@@ -56,9 +56,9 @@ function right_prompt_hg_user -d "Display mercurial user"
     set user_name (command hg config ui.username ^/dev/null)
     if [ $user_name ]
       set user_name (command echo $user_name | sed -e 's/<.*>//g' | sed -e 's/ *$//g')
-      right_prompt_segment green black $user_name
+      right_prompt_segment cyan white $user_name
     else
-      right_prompt_segment blue black '-'
+      right_prompt_segment blue white '-'
     end
   end
 end
@@ -81,11 +81,11 @@ function right_prompt_git_user -d "Display the current git user"
     if [ $user_name ]
       switch $user_config
         case 'local'
-          right_prompt_segment green black $user_name
+          right_prompt_segment red white $user_name
         case 'global'
-          right_prompt_segment yellow black $user_name
+          right_prompt_segment cyan white $user_name
         case 'not'
-          right_prompt_segment blue black $user_name
+          right_prompt_segment blue white $user_name
       end
     end
   end
