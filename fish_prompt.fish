@@ -1,6 +1,9 @@
 # Set these options in your config.fish (if you want to :])
 #
 #     set -g theme_display_user yes
+#     set -g theme_display_git no
+#     set -g theme_display_hg yes
+#     set -g theme_display_svn yes
 #     set -g theme_hostname never
 #     set -g theme_hostname always
 #     set -g default_user your_normal_user
@@ -267,8 +270,14 @@ function fish_prompt
   prompt_virtual_env
   prompt_user
   prompt_dir
-  available hg;  and prompt_hg
-  available git; and prompt_git
-  available svn; and prompt_svn
+  if [ "$theme_display_hg" = 'yes' ]
+    available hg;  and prompt_hg
+  end
+  if [ "$theme_display_git" != 'no' ]
+    available git; and prompt_git
+  end
+  if [ "$theme_display_svn" = 'yes' ]
+    available svn; and prompt_svn
+  end
   prompt_finish
 end
