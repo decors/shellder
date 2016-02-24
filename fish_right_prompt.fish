@@ -1,10 +1,6 @@
 # Set these options in your config.fish (if you want to :])
 #
-#     set -g theme_display_user yes
-#     set -g theme_hostname never
-#     set -g theme_hostname always
-#     set -g default_user your_normal_user
-
+#     set -g theme_display_vcs_user no
 
 #
 # Segments functions
@@ -107,8 +103,10 @@ end
 # Prompt
 #
 function fish_right_prompt
-  available hg; and right_prompt_hg_user
-  available git; and right_prompt_git_user
+  if [ "$theme_display_vcs_user" != 'no' ]
+    available hg; and right_prompt_hg_user
+    available git; and right_prompt_git_user
+  end
   right_prompt_clock
   right_prompt_finish
 end
