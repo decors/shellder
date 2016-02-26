@@ -2,6 +2,7 @@
 #
 #     set -g theme_display_git_user no
 #     set -g theme_display_hg_user yes
+#     set -g theme_display_clock yes
 
 #
 # Segments functions
@@ -52,6 +53,10 @@ end
 #
 
 function right_prompt_hg_user -d "Display mercurial user"
+  if [ "$theme_display_hg_user" != 'yes' ]
+    return
+  end
+
   if command hg id >/dev/null 2>&1
     set user_name (command hg config ui.username ^/dev/null)
     if [ $user_name ]
@@ -64,6 +69,10 @@ function right_prompt_hg_user -d "Display mercurial user"
 end
 
 function right_prompt_git_user -d "Display the current git user"
+  if [ "$theme_display_git_user" = 'no' ]
+    return
+  end
+
   if command git rev-parse --is-inside-work-tree >/dev/null 2>&1
     set -l user_config; set -l user_name;
     
@@ -92,7 +101,9 @@ function right_prompt_git_user -d "Display the current git user"
 end
 
 function right_prompt_clock -S -d 'Display current time'
-  right_prompt_segment black BCBCBC (date '+%H:%M')
+  if [ "$theme_display_clock" = 'yes' ]
+    right_prompt_segment black BCBCBC (date '+%H:%M')
+  end
 end
 
 function available -a name -d "Check if a function or program is available."
@@ -104,12 +115,8 @@ end
 # Prompt
 #
 function fish_right_prompt
-  if [ "$theme_display_hg_user" = 'yes' ]
-    available hg; and right_prompt_hg_user
-  end
-  if [ "$theme_display_git_user" != 'no' ]
-    available git; and right_prompt_git_user
-  end
+  available hg; and right_prompt_hg_user
+  available git; and right_prompt_git_user
   right_prompt_clock
   right_prompt_finish
 end
