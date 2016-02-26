@@ -137,6 +137,10 @@ end
 
 
 function prompt_hg -d "Display mercurial state"
+  if [ "$theme_display_hg" != 'yes' ]
+    return
+  end
+
   set -l branch
   set -l state
   if command hg id >/dev/null 2>&1
@@ -157,6 +161,10 @@ end
 
 
 function prompt_git -d "Display the current git state"
+  if [ "$theme_display_git" = 'no' ]
+    return
+  end
+
   set -l ref
   if command git rev-parse --is-inside-work-tree >/dev/null 2>&1
     set ref (command git symbolic-ref HEAD 2> /dev/null)
@@ -212,6 +220,10 @@ end
 
 
 function prompt_svn -d "Display the current svn state"
+  if [ "$theme_display_svn" != 'yes' ]
+    return
+  end
+
   set -l ref
   if command svn ls . >/dev/null 2>&1
     set branch (svn_get_branch)
@@ -270,14 +282,8 @@ function fish_prompt
   prompt_virtual_env
   prompt_user
   prompt_dir
-  if [ "$theme_display_hg" = 'yes' ]
-    available hg;  and prompt_hg
-  end
-  if [ "$theme_display_git" != 'no' ]
-    available git; and prompt_git
-  end
-  if [ "$theme_display_svn" = 'yes' ]
-    available svn; and prompt_svn
-  end
+  available hg;  and prompt_hg
+  available git; and prompt_git
+  available svn; and prompt_svn
   prompt_finish
 end
