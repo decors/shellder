@@ -2,7 +2,8 @@
 #
 #     set -g theme_display_git_user no
 #     set -g theme_display_hg_user yes
-#     set -g theme_display_clock yes
+#     set -g theme_display_date yes
+#     set -g theme_date_format "+%c"
 
 #
 # Segments functions
@@ -100,10 +101,13 @@ function right_prompt_git_user -d "Display the current git user"
   end
 end
 
-function right_prompt_clock -S -d 'Display current time'
-  if [ "$theme_display_clock" = 'yes' ]
-    right_prompt_segment black BCBCBC (date '+%H:%M')
+function right_prompt_timestamp -S -d 'Display current timestamp'
+  if [ "$theme_display_date" != 'yes' ]
+    return
   end
+  
+  set -q theme_date_format; or set -l theme_date_format "+%H:%M"
+  right_prompt_segment black BCBCBC (date $theme_date_format)
 end
 
 function available -a name -d "Check if a function or program is available."
@@ -117,6 +121,6 @@ end
 function fish_right_prompt
   available hg; and right_prompt_hg_user
   available git; and right_prompt_git_user
-  right_prompt_clock
+  right_prompt_timestamp
   right_prompt_finish
 end
