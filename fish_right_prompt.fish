@@ -119,7 +119,7 @@ end
 # Prompt
 #
 function fish_right_prompt
-  set_color --print-colors | grep -q gray; and set -g shellder_white gray; or set -g shellder_white white
+  set_color --print-colors | grep -q grey; and set -g shellder_white grey; or set -g shellder_white white
   available hg; and right_prompt_hg_user
   available git; and right_prompt_git_user
   right_prompt_timestamp

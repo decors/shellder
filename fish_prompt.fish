@@ -278,7 +278,7 @@ end
 #
 function fish_prompt
   set -g RETVAL $status
-  set_color --print-colors | grep -q gray; and set -g shellder_white gray; or set -g shellder_white white
+  set_color --print-colors | grep -q grey; and set -g shellder_white grey; or set -g shellder_white white
   prompt_status
   prompt_virtual_env
   prompt_user
