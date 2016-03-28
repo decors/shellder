@@ -117,7 +117,7 @@ end
 
 
 function prompt_dir -d "Display the current directory"
-  prompt_segment black white ''
+  prompt_segment black $shellder_white ''
   set basename (basename $PWD)
   set realhome ~
   switch $PWD
@@ -127,9 +127,9 @@ function prompt_dir -d "Display the current directory"
       echo -n "/ "
     case "*"
       set parent (prompt_pwd | sed -e "s/$basename\$//")
-      set_color white
+      set_color $shellder_white
       echo -n $parent
-      set_color -o white
+      set_color -o $shellder_white
       echo -n -s $basename " "
       set_color normal
   end
@@ -149,11 +149,11 @@ function prompt_hg -d "Display mercurial state"
       set state (command hg prompt "{status}")
       set branch_symbol \uE0A0
       if [ "$state" = "!" ]
-        prompt_segment magenta white "$branch_symbol $branch ±"
+        prompt_segment magenta $shellder_white "$branch_symbol $branch ±"
       else if [ "$state" = "?" ]
-          prompt_segment red white "$branch_symbol $branch ±"
+          prompt_segment red $shellder_white "$branch_symbol $branch ±"
         else
-          prompt_segment cyan white "$branch_symbol $branch"
+          prompt_segment cyan $shellder_white "$branch_symbol $branch"
       end
     end
   end
@@ -214,7 +214,7 @@ function prompt_git -d "Display the current git state"
         set PROMPT "$branch $dirty"
       end
     end
-    prompt_segment $BG white $PROMPT
+    prompt_segment $BG $shellder_white $PROMPT
   end
 end
 
@@ -229,7 +229,7 @@ function prompt_svn -d "Display the current svn state"
     set branch (svn_get_branch)
     set branch_symbol \uE0A0
     set revision (svn_get_revision)
-    prompt_segment cyan white "$branch_symbol $branch:$revision"
+    prompt_segment cyan $shellder_white "$branch_symbol $branch:$revision"
   end
 end
 
@@ -253,18 +253,18 @@ end
 
 function prompt_status -d "the symbols for a non zero exit status, root and background jobs"
     if [ $RETVAL -ne 0 ]
-      prompt_segment white red '!'
+      prompt_segment $shellder_white red '!'
     end
 
     # if superuser (uid == 0)
     set -l uid (id -u $USER)
     if [ $uid -eq 0 ]
-      prompt_segment white green '$'
+      prompt_segment $shellder_white green '$'
     end
 
     # Jobs display
     if [ (jobs -l | wc -l) -gt 0 ]
-      prompt_segment white magenta '%'
+      prompt_segment $shellder_white magenta '%'
     end
 end
 
@@ -278,6 +278,7 @@ end
 #
 function fish_prompt
   set -g RETVAL $status
+  set_color --print-colors | grep -q gray; and set -g shellder_white gray; or set -g shellder_white white
   prompt_status
   prompt_virtual_env
   prompt_user

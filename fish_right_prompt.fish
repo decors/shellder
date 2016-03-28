@@ -62,9 +62,9 @@ function right_prompt_hg_user -d "Display mercurial user"
     set user_name (command hg config ui.username ^/dev/null)
     if [ $user_name ]
       set user_name (command echo $user_name | sed -e 's/<.*>//g' | sed -e 's/ *$//g')
-      right_prompt_segment cyan white $user_name
+      right_prompt_segment cyan $shellder_white $user_name
     else
-      right_prompt_segment blue white '-'
+      right_prompt_segment blue $shellder_white '-'
     end
   end
 end
@@ -76,7 +76,7 @@ function right_prompt_git_user -d "Display the current git user"
 
   if command git rev-parse --is-inside-work-tree >/dev/null 2>&1
     set -l user_config; set -l user_name;
-    
+
     set user_name (command git config --local --get user.name ^/dev/null)
     set user_config local
     if [ ! $user_name ]
@@ -87,15 +87,15 @@ function right_prompt_git_user -d "Display the current git user"
         set user_config not
       end
     end
-    
+
     if [ $user_name ]
       switch $user_config
         case 'local'
-          right_prompt_segment red white $user_name
+          right_prompt_segment red $shellder_white $user_name
         case 'global'
-          right_prompt_segment cyan white $user_name
+          right_prompt_segment cyan $shellder_white $user_name
         case 'not'
-          right_prompt_segment blue white $user_name
+          right_prompt_segment blue $shellder_white $user_name
       end
     end
   end
@@ -105,7 +105,7 @@ function right_prompt_timestamp -S -d 'Display current timestamp'
   if [ "$theme_display_date" != 'yes' ]
     return
   end
-  
+
   set -q theme_date_format; or set -l theme_date_format "+%H:%M"
   right_prompt_segment black BCBCBC (date $theme_date_format)
 end
@@ -119,6 +119,7 @@ end
 # Prompt
 #
 function fish_right_prompt
+  set_color --print-colors | grep -q gray; and set -g shellder_white gray; or set -g shellder_white white
   available hg; and right_prompt_hg_user
   available git; and right_prompt_git_user
   right_prompt_timestamp
