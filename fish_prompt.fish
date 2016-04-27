@@ -268,6 +268,21 @@ function prompt_status -d "the symbols for a non zero exit status, root and back
     end
 end
 
+function prompt_mode --description 'Displays the current mode'
+  if set -q __fish_vi_mode
+    switch $fish_bind_mode
+      case default
+        prompt_segment red $shellder_white 'N'
+      case insert
+        prompt_segment green $shellder_white 'I'
+      case replace-one
+        prompt_segment green $shellder_white 'R'
+      case visual
+        prompt_segment magenta $shellder_white 'V'
+    end
+  end
+end
+
 function available -a name -d "Check if a function or program is available."
   type "$name" ^/dev/null >&2
 end
@@ -279,6 +294,7 @@ end
 function fish_prompt
   set -g RETVAL $status
   set_color --print-colors | grep -q grey; and set -g shellder_white grey; or set -g shellder_white white
+  prompt_mode
   prompt_status
   prompt_virtual_env
   prompt_user
