@@ -110,18 +110,14 @@ function right_prompt_timestamp -S -d 'Display current timestamp'
   right_prompt_segment black BCBCBC (date $theme_date_format)
 end
 
-function available -a name -d "Check if a function or program is available."
-  type "$name" ^/dev/null >&2
-end
-
 
 #
 # Prompt
 #
 function fish_right_prompt
   set_color --print-colors | grep -q grey; and set -g shellder_white grey; or set -g shellder_white white
-  available hg; and right_prompt_hg_user
-  available git; and right_prompt_git_user
+  type -q hg; and right_prompt_hg_user
+  type -q git; and right_prompt_git_user
   right_prompt_timestamp
   right_prompt_finish
 end
