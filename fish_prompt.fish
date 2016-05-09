@@ -269,7 +269,7 @@ function prompt_status -d "the symbols for a non zero exit status, root and back
 end
 
 function prompt_mode --description 'Displays the current mode'
-  if set -q __fish_vi_mode
+  if test "$fish_key_bindings" = "fish_vi_key_bindings"
     switch $fish_bind_mode
       case default
         prompt_segment red $shellder_white 'N'
