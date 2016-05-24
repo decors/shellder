@@ -7,7 +7,7 @@ function set_color_custom
     set -U fish_color_error                 red --bold
     set -U fish_color_escape                cyan
     set -U fish_color_operator              cyan
-    set -U fish_color_end                   white
+    set -U fish_color_end                   grey
     set -U fish_color_quote                 brown
     set -U fish_color_autosuggestion        black
     set -U fish_color_valid_path            --underline
